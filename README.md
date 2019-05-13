@@ -1,2 +1,2 @@
-# Matala5-itertools
-Roi Abramovitch & Val Hadida
+## Matala5-itertools
+Roi Abramovitch & Gal Hadida
