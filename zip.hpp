@@ -20,16 +20,16 @@ namespace itertools{
         type2 it2;
         
         
-      public:
-       bool TorF;
-       bool check;
-    iterator(type1 firstIT, type2 secondIT): it1(firstIT), it2(secondIT), TorF(true),check(true){}             
+        public:
+     
+    iterator(type1 firstIT, type2 secondIT): it1(firstIT), it2(secondIT){}             
             
            iterator<type1,type2>& operator++()
            {
-               
+               this->first.begin;
                  ++this->it1;
                  ++this->it2;
+                
                 return  *this;
             }
              pair <decltype(*it1),decltype(*it2)> operator*() const
@@ -45,7 +45,7 @@ namespace itertools{
 
         };
          auto begin() const { 
-            return iterator<decltype(this->first.begin()),decltype(this->second.begin())>(this->first.begin(),this->second.begin()); 
+            return iterator<decltype(first.begin()),decltype(second.begin())>(first.begin(),second.begin()); 
             }  
         auto end() const { 
             return iterator<decltype(this->first.end()),decltype(this->second.end())>(this->first.end(),this->second.end()); 
