@@ -1,6 +1,7 @@
+
 namespace itertools{
 
-    template <class T>
+    template <typename T>
 
     class range{
         private:
@@ -13,31 +14,32 @@ namespace itertools{
             public:
             T value;
 
-            iterator(T v){
-               this->value=v;
-            }
+            iterator(T v) : value(v){}
 
             T operator*() const{
-                return this->value;
+                return value;
             }
 
             iterator& operator++(){
-                ++this->value;
-                return  *this;
-            }  
+               value++;
+               return  *this;
+            } 
+            iterator operator++ (int){
+                iterator temp(*this);
+                operator++();
+                return temp;
+            } 
         
             bool operator!=(iterator const &diff) const{
-                return this->value != (diff.value);
+                return !(value == (diff.value));
             }           
         };
         public:
-        range (T start, T end){
-            this->_first=start;
-            this->_last=end;
-        }
-        iterator begin() const { 
-            return iterator(_first); }  
+        range (T start, T end): _first(start), _last(end) {}
+        iterator begin() const {return iterator(_first); }  
         iterator end() const { 
             return iterator(_last); } 
     };
 }
+
+  

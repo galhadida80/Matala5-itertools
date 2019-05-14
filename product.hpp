@@ -18,37 +18,36 @@ namespace itertools{
         {
         private:
         type1 it1;
-        type1 begin1;
         type2 it2;
-        type begin2;
+        type2 begin2;
 
         public:
          bool TorF;
-         bool check;
 
-    iterator(type1 firstIT, type2 secondIT): it1(firstIT), it2(secondIT), TorF(true),check(true){}             
+            iterator(type1 firstIT, type2 secondIT): it1(firstIT), it2(secondIT),begin2(secondIT),TorF(false){}             
             iterator<type1,type2>& operator++()
-           {              
-                 if(this->it2 !=  && this->check){
-                   this->it1;
-                 ++this->it2;  
-                 }
-                 else{
-                     this->it2=
-                 }
+            {     
+                ++this->it2;
                 return  *this;
             }
              pair <decltype(*it1),decltype(*it2)> operator*() const
              {
                 return pair <decltype(*it1),decltype(*it2)>(*it1,*it2);
-            }
-            bool operator!=(iterator<type1,type2> const &rhs)
-             {
-                 return(this->it1 != rhs.it1 && this->it2 != rhs.it2);
-                 
              }
-
-
+            bool operator!=(iterator<type1,type2> const &rhs)
+             {  
+                  if(!(this->it2 != rhs.it2) && (this->it1 != rhs.it1))
+                 {      ++this->it1;
+                        this->it2=this->begin2;
+                 }
+                  if(!(this->it1 != rhs.it1))
+                 {
+                     return false;
+                 }
+                 return true;
+                  
+                     
+             }
         };
         auto begin() const { 
             return iterator<decltype(this->first.begin()),decltype(this->second.begin())>(this->first.begin(),this->second.begin()); 
@@ -56,12 +55,10 @@ namespace itertools{
         auto end() const { 
             return iterator<decltype(this->first.end()),decltype(this->second.end())>(this->first.end(),this->second.end()); 
              }
-     
+    
         
         };
-        template <typename Y,typename E>
-         ostream& operator<< (ostream& os, const pair<Y,E>& Pa){
-            return (os << Pa.first<< ',' << Pa.second);
-         }
+        
+        
 
 }

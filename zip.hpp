@@ -26,7 +26,6 @@ namespace itertools{
             
            iterator<type1,type2>& operator++()
            {
-               this->first.begin;
                  ++this->it1;
                  ++this->it2;
                 
@@ -45,7 +44,7 @@ namespace itertools{
 
         };
          auto begin() const { 
-            return iterator<decltype(first.begin()),decltype(second.begin())>(first.begin(),second.begin()); 
+             return iterator<decltype(this->first.begin()),decltype(this->second.begin())>(this->first.begin(),this->second.begin()); 
             }  
         auto end() const { 
             return iterator<decltype(this->first.end()),decltype(this->second.end())>(this->first.end(),this->second.end()); 

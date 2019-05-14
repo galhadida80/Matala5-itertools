@@ -29,6 +29,11 @@ namespace itertools{
                 }
                 return  *this;
             }
+            iterator operator++ (int){
+                iterator temp(*this);
+                operator++();
+                return temp;
+            } 
 
             decltype(*it1) operator*() const{
                 if(this->check==true){
