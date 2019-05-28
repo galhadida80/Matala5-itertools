@@ -1,116 +1,121 @@
-#include <iterator> // std::iterator,std::input_iterator_tag
-#include <iostream> // std::cout
+#include <iostream> 
 #include <bitset>
 #include <math.h>
 #include <string>
+#include <set>
+
+
 using namespace std;
 namespace itertools{
 template <class Z>
 class powerset
 {
-    Z a;
+Z a;
 public:   
-   
-        class iterator{
-    private:
-    void reverseStr(string& str) 
-    { 
+typedef
+typename remove_const<
+typename remove_reference<
+decltype(*a.begin())>::type>::type Element;
+
+class iterator{
+private:
+decltype(a.begin()) iterStart;
+decltype(a.begin()) iterEnd;
+
+void reverseStr(string& str) 
+{ 
     int n = str.length(); 
-  
-    // Swap character starting from two 
-    // corners 
     for (int i = 0; i < n / 2; i++) 
         swap(str[i], str[n - i - 1]); 
-    }
-    std::string toBinary(int n)
+}
+    
+
+public:
+   
+    int n=0;
+    int ind=0;
+    int length=0; 
+    iterator(Z theBaseRange): iterStart(theBaseRange.begin()), iterEnd(theBaseRange.end())
     {
-    std::string r;
-    while(n!=0) {r=(n%2==0 ?"0":"1")+r; n/=2;}
-    return r;
+        auto start=iterStart;
+        while(start!=iterEnd)
+        {
+            start++;
+            n++;
+            length++;
+        }
+        n=pow(2,n);
     }
+    iterator& operator++()
+    { 
+        ind++;
+        return *this;
+    }
+    iterator operator++(int) 
+    { 
+        iterator tmp(*this); 
+        operator++(); 
+        return tmp;
+    }
+    
+    bool operator!=( iterator  &rhs) {return !(ind==rhs.n);}
+    set<Element> operator*() 
+    {
+        auto point = iterStart; 
+        // int lenght2 = length;
+        string binary = bitset<100>(ind).to_string(); //to binary
+        reverseStr(binary);
+        auto bin = binary.begin();
+        auto binend = binary.end();
+        string b = "";
+        string s = "{";
+        string h = "";
+        set<Element> g;
+        while (point!=iterEnd)
+        {
 
- 
-        public:
-
-        decltype(a.begin()) itS;
-        decltype(a.begin()) itE;
-        int n=0;
-        int subsetIndex=0;
-        int length=0;
-            iterator(Z theBaseRange): itS(theBaseRange.begin()), itE(theBaseRange.end())
+            if((h[0] > 96 && h[0] < 123) || (h[0] > 64 && h[0] < 91))
             {
-              auto start=itS;
-                while(start!=itE)
-                {
-                   start++;
-                    n++;
-                    length++;
-                }
-                n=pow(2,n);
+                if (*bin=='1' && *bin!=*binend)
+                { 
+                    g.insert(*point); 
+                } 
             }
-        iterator& operator++() { 
-         subsetIndex++;
-         return *this;
-        }
-        iterator operator++(int) { 
-          iterator tmp(*this); 
-          operator++(); 
-          return tmp;
-          }
-        bool operator!=( iterator  &rhs) {
-         return !(subsetIndex==rhs.n);
-        }
-     string operator*() 
-     {
-    auto itPowerS =itS; 
-    string binary = toBinary(subsetIndex); //to binary
-    reverseStr(binary);
-    auto binstart=binary.begin();
-    auto binend=binary.end();
-       string s= "{";
-       bool firstpsik=false;
-       while ((binstart!=binend))
-       {
-           
-            if (*binstart=='1')
-                {
-                    std::cout << "Shira " << *itPowerS << std::endl;
-                    if (s.compare("{")==0)
-                    firstpsik=true;
-                    else
-                    {
-                        firstpsik=false;
-                    }
-                    
-                    if (firstpsik==false)
-                    {
-                            s=s+","+to_string(*itPowerS);
-                    }
-                    else
-                    {
-                        s=s+to_string(*itPowerS);
-                    }
-                    
+            else
+            {  
+                if (*bin=='1' && *bin!=*binend)
+                { 
+                    g.insert(*point);
                 }
-              itPowerS++; 
-              binstart++; 
-       }
-        s=s+'}';
-        return s;
+            }
+            point++; 
+            bin++;
+        }
+        return g;
         } 
-
     };
-    powerset (Z a): a(a){
-    }
-    auto begin() 
-        { 
-            return iterator(a); 
-        }  
-    auto end()  
-        { 
-             return iterator(a); 
-        }   
+    powerset (Z a): a(a){}
+    auto begin() const {return iterator(a); }  
+    auto end() const{return iterator(a);}   
 };
+}
+template <typename Y>
+ostream &operator<<(ostream &os, const set<Y> &Set)
+{
+    os << "{";
 
-  
+    auto iter = Set.begin();
+    if(iter != Set.end())
+    {//first time without ','
+        os << *iter; 
+        ++iter;
+    }
+
+    while (iter != Set.end())
+    {
+        os << ',' << *iter;
+        ++iter;
+    }
+    os << "}";
+    return os;
 }

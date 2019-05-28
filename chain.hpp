@@ -1,4 +1,5 @@
 #include "iostream"
+#include "iterator"
 namespace itertools{
       template <typename T1, typename T2>
       class chain{
@@ -29,21 +30,22 @@ namespace itertools{
                 }
                 return  *this;
             }
-            iterator operator++ (int){
+            iterator operator++ (int)
+            {
                 iterator temp(*this);
                 operator++();
                 return temp;
             } 
 
-            decltype(*it1) operator*() const{
+            decltype(*it1) operator*()const{
                 if(this->check==true){
-                return *it1;
+                    return *it1;
                 }
                 else{
                     return *it2;
                 }
             }
-
+            
             bool operator!=(iterator<type1,type2> const &rhs)
              {
                if(this->check && !(this->it1 != (rhs.it1))){
@@ -51,7 +53,7 @@ namespace itertools{
                }
 
                if(this->check==true){
-                return this->it1 != (rhs.it1);
+                    return this->it1 != (rhs.it1);
                }
                else{
                    return this->it2 != (rhs.it2);
@@ -61,12 +63,14 @@ namespace itertools{
         };
        
         
-        auto begin() const { 
+        auto begin() const
+        { 
             return iterator<decltype(this->one.begin()),decltype(this->two.begin())>(this->one.begin(),this->two.begin()); 
-            }  
-        auto end() const { 
+        }  
+        auto end() const 
+        { 
             return iterator<decltype(this->one.end()),decltype(this->two.end())>(this->one.end(),this->two.end()); 
-             } 
+        } 
           
       };
 }

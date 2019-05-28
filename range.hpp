@@ -1,7 +1,7 @@
 
 namespace itertools{
 
-    template <typename T>
+    template <class T>
 
     class range{
         private:
@@ -22,7 +22,7 @@ namespace itertools{
 
             iterator& operator++(){
                value++;
-               return  *this;
+               return *this;
             } 
             iterator operator++ (int){
                 iterator temp(*this);
